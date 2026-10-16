@@ -2,6 +2,13 @@ import Foundation
 import Sentry
 
 enum CrashReporter {
+    /// True when the app is launched by the test runner (local `xcodebuild test`, CI).
+    /// Crash, hang and analytics reporting stay off then, so test runs never reach production dashboards.
+    static var isRunningTests: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+            || NSClassFromString("XCTestCase") != nil
+    }
+
     static func start(bundle: Bundle = .main) {
         let info = bundle.infoDictionary ?? [:]
         let dsn = info["SentryDSN"] as? String ?? ""
@@ -20,7 +27,7 @@ enum CrashReporter {
 
     private static func start(dsn: String, environment: String, tracesSampleRate: Double) {
         let dsn = dsn.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !dsn.isEmpty else { return }
+        guard !dsn.isEmpty, !isRunningTests else { return }
 
         SentrySDK.start { options in
             options.dsn = dsn

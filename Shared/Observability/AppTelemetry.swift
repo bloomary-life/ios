@@ -34,7 +34,7 @@ enum AppTelemetry {
 
     static func start(configuration: AppConfiguration.Observability) {
         let appID = configuration.telemetryDeckAppID.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !appID.isEmpty else { return }
+        guard !appID.isEmpty, !CrashReporter.isRunningTests else { return }
 
         let namespace = configuration.telemetryDeckNamespace.trimmingCharacters(in: .whitespacesAndNewlines)
         let telemetryConfig = TelemetryDeck.Config(appID: appID, namespace: namespace.isEmpty ? nil : namespace)

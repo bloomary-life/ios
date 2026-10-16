@@ -17,13 +17,13 @@
 	<key>observability</key>
 	<dict>
 		<key>sentryDSN</key>
-		<string>https://de50295bcd3f9fb39190f0bf66aaa369@o4511977201205248.ingest.de.sentry.io/4511977218375760</string>
+		<string></string>
 		<key>sentryEnvironment</key>
 		<string>production</string>
 		<key>sentryTracesSampleRate</key>
 		<real>0.10000000000000001</real>
 		<key>telemetryDeckAppID</key>
-		<string>5BC98248-6BB2-4B83-AB26-308C92836215</string>
+		<string></string>
 		<key>telemetryDeckNamespace</key>
 		<string>eu.dailymind</string>
 	</dict>

@@ -40,7 +40,7 @@
 	<key>NSAccentColorName</key>
 	<string>AccentColor</string>
 	<key>SentryDSN</key>
-	<string>https://de50295bcd3f9fb39190f0bf66aaa369@o4511977201205248.ingest.de.sentry.io/4511977218375760</string>
+	<string></string>
 	<key>SentryEnvironment</key>
 	<string>production</string>
 	<key>SentryTracesSampleRate</key>

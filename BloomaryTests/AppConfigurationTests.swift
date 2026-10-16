@@ -84,7 +84,7 @@ struct AppConfigurationTests {
                 <key>sentryTracesSampleRate</key>
                 <real>0.1</real>
                 <key>telemetryDeckAppID</key>
-                <string>5BC98248-6BB2-4B83-AB26-308C92836215</string>
+                <string>00000000-0000-0000-0000-000000000000</string>
                 <key>telemetryDeckNamespace</key>
                 <string>eu.dailymind</string>
             </dict>
@@ -94,7 +94,7 @@ struct AppConfigurationTests {
 
         let configuration = try PropertyListDecoder().decode(AppConfiguration.self, from: data)
 
-        #expect(configuration.observability.telemetryDeckAppID == "5BC98248-6BB2-4B83-AB26-308C92836215")
+        #expect(configuration.observability.telemetryDeckAppID == "00000000-0000-0000-0000-000000000000")
         #expect(configuration.observability.telemetryDeckNamespace == "eu.dailymind")
         #expect(configuration.observability.sentryEnvironment == "production")
     }

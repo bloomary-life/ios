@@ -1,0 +1,90 @@
+{
+  "identifier" : "B5B2F4A0-8D3E-4E5A-9F1C-2D6E8F0A4B6C",
+  "type" : "Configuration",
+  "version" : 3,
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "A1B2C3D4-5E6F-7890-ABCD-EF1234567890",
+      "localizations" : [
+        {
+          "description" : "Advanced LinkedIn post writing tools",
+          "displayName" : "Bloomary Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Bloomary Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "24.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "D1E2F3A4-B5C6-7890-1234-567890ABCDEF",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Monthly access to Bloomary Pro",
+              "displayName" : "Bloomary Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "bloomary.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Bloomary Pro Monthly",
+          "subscriptionGroupID" : "A1B2C3D4-5E6F-7890-ABCD-EF1234567890",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "199.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "E2F3A4B5-C6D7-8901-2345-67890ABCDEF0",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Yearly access to Bloomary Pro — save 33%",
+              "displayName" : "Bloomary Pro Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "bloomary.pro.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Bloomary Pro Yearly",
+          "subscriptionGroupID" : "A1B2C3D4-5E6F-7890-ABCD-EF1234567890",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ]
+}

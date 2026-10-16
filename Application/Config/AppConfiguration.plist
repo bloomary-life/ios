@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>api</key>
+	<dict>
+		<key>baseURL</key>
+		<string>https://api.bloomary.life</string>
+		<key>testBaseURL</key>
+		<string>https://api-stage.bloomary.life</string>
+	</dict>
+	<key>linkedIn</key>
+	<dict>
+		<key>callbackURLScheme</key>
+		<string>bloomary</string>
+	</dict>
+	<key>observability</key>
+	<dict>
+		<key>sentryDSN</key>
+		<string>https://de50295bcd3f9fb39190f0bf66aaa369@o4511977201205248.ingest.de.sentry.io/4511977218375760</string>
+		<key>sentryEnvironment</key>
+		<string>production</string>
+		<key>sentryTracesSampleRate</key>
+		<real>0.10000000000000001</real>
+		<key>telemetryDeckAppID</key>
+		<string>5BC98248-6BB2-4B83-AB26-308C92836215</string>
+		<key>telemetryDeckNamespace</key>
+		<string>eu.dailymind</string>
+	</dict>
+	<key>storage</key>
+	<dict>
+		<key>draftsKey</key>
+		<string>bloomary_drafts</string>
+		<key>linkedInTokenKey</key>
+		<string>bloomary_linkedin_token</string>
+	</dict>
+	<key>scheduling</key>
+	<dict>
+		<key>maxAheadDays</key>
+		<integer>31</integer>
+	</dict>
+</dict>
+</plist>

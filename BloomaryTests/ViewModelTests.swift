@@ -90,20 +90,17 @@ struct ViewModelTests {
         let aiSettingsStore = makeAISettingsStore()
         aiSettingsStore.apiKey = "secret-key"
         sessionStore.setToken(makeToken(memberID: "member-1"))
-        var clearedLegacyMemberIDs: [String] = []
         let viewModel = AccountViewModel(
             authService: auth,
             sessionStore: sessionStore,
             draftStore: DraftStore(draftRepository: ViewModelTestDraftRepository()),
-            aiSettingsStore: aiSettingsStore,
-            clearLegacyPostingCache: { clearedLegacyMemberIDs.append($0) }
+            aiSettingsStore: aiSettingsStore
         )
 
         viewModel.logOut()
 
         try await waitForCondition { sessionStore.statusMessage == "Logged out." }
         #expect(auth.disconnectedMemberIDs == ["member-1"])
-        #expect(clearedLegacyMemberIDs == ["member-1"])
         #expect(!viewModel.isConnected)
         #expect(!viewModel.isLoggingOut)
         #expect(aiSettingsStore.apiKey == "secret-key")
@@ -120,13 +117,11 @@ struct ViewModelTests {
         draftStore.setOwnerID("member-1")
         let aiSettingsStore = makeAISettingsStore()
         aiSettingsStore.apiKey = "secret-key"
-        var clearedLegacyMemberIDs: [String] = []
         let viewModel = AccountViewModel(
             authService: auth,
             sessionStore: sessionStore,
             draftStore: draftStore,
-            aiSettingsStore: aiSettingsStore,
-            clearLegacyPostingCache: { clearedLegacyMemberIDs.append($0) }
+            aiSettingsStore: aiSettingsStore
         )
 
         var didSucceed = false
@@ -135,7 +130,6 @@ struct ViewModelTests {
         try await waitForCondition { didSucceed }
         #expect(auth.deletedMemberIDs == ["member-1"])
         #expect(auth.didRequireFreshSignIn)
-        #expect(clearedLegacyMemberIDs == ["member-1"])
         #expect(!viewModel.isConnected)
         #expect(draftStore.drafts.isEmpty)
         #expect(draftRepository.savedDrafts(ownerID: "member-1").isEmpty)

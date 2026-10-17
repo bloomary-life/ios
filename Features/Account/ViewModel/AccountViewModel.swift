@@ -16,7 +16,6 @@ final class AccountViewModel: ObservableObject {
     private let draftStore: DraftStore
     private let aiSettingsStore: AISettingsStore
     private let clearAccountCaches: (String) -> Void
-    private let clearLegacyPostingCache: (String) -> Void
     private let exportDraftArchive: ((String, String) async throws -> URL)?
     private var cancellables = Set<AnyCancellable>()
 
@@ -29,9 +28,6 @@ final class AccountViewModel: ObservableObject {
         clearAccountCaches: @escaping (String) -> Void = { memberID in
             UserDefaults.standard.removeObject(forKey: "bloomary_entitlement_\(memberID)")
         },
-        clearLegacyPostingCache: @escaping (String) -> Void = { memberID in
-            UserDefaults.standard.removeObject(forKey: "bloomary_streak_\(memberID)")
-        },
         exportDraftArchive: ((String, String) async throws -> URL)? = nil
     ) {
         self.legacyDraftRepository = legacyDraftRepository
@@ -40,7 +36,6 @@ final class AccountViewModel: ObservableObject {
         self.draftStore = draftStore
         self.aiSettingsStore = aiSettingsStore
         self.clearAccountCaches = clearAccountCaches
-        self.clearLegacyPostingCache = clearLegacyPostingCache
         self.exportDraftArchive = exportDraftArchive
         draftStore.objectWillChange.sink { [weak self] in self?.objectWillChange.send() }.store(in: &cancellables)
         sessionStore.objectWillChange
@@ -135,7 +130,6 @@ final class AccountViewModel: ObservableObject {
                     remoteDisconnectFailed = true
                     Logger(subsystem: "com.dailymind.bloomary", category: "Account").error("POST /api/linkedin/disconnect failed: \(String(describing: type(of: error)), privacy: .public)")
                 }
-                clearLegacyPostingCache(memberID)
             }
             guard sessionStore.token == token else { isLoggingOut = false; return }
             sessionStore.disconnect()
@@ -176,7 +170,6 @@ final class AccountViewModel: ObservableObject {
                 draftStore.deleteAccountData(ownerID: memberID)
                 let clearedAIKey = aiSettingsStore.clearAccountDeletionData()
                 if let memberID {
-                    clearLegacyPostingCache(memberID)
                     clearAccountCaches(memberID)
                     UserDefaults.standard.removeObject(forKey: "bloomary.publish-attempt.\(memberID)")
                 }

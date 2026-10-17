@@ -59,11 +59,17 @@ final class AccountViewModel: ObservableObject {
             let source = draftStore.subscriptionSource == "apple" ? "App Store" : "Web"
             return "Pro · " + source
         }
-        if draftStore.subscriptionSource == "trial", let end = draftStore.accessUntil, end > Date() {
-            let days = max(1, Int(ceil(end.timeIntervalSinceNow / 86400)))
-            return "Free trial · \(days) days left · ends \(end.formatted(date: .abbreviated, time: .omitted))"
+        if draftStore.tier == .trial {
+            if let end = draftStore.accessUntil, end > Date() {
+                let days = max(1, Int(ceil(end.timeIntervalSinceNow / 86400)))
+                return "Free trial · \(days) days left · ends \(end.formatted(date: .abbreviated, time: .omitted))"
+            }
+            return "Free trial"
         }
-        return "Free plan"
+        if draftStore.tier == .lapsed {
+            return "No active plan"
+        }
+        return "Your plan"
     }
 
     var subscriptionSource: String? { draftStore.subscriptionSource }

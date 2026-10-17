@@ -87,7 +87,7 @@ struct PurchaseView: View {
 
     private var purchaseContent: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Free: write, publish, and keep up to 5 drafts. Upgrade to schedule posts and keep up to 50 drafts.")
+            Text("Publish, schedule, and edit up to 50 drafts. Without an active plan, your drafts stay readable and exportable.")
                 .font(.body)
                 .foregroundStyle(AppStyle.muted)
 

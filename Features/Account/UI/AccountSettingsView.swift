@@ -572,7 +572,10 @@ private struct AccountDetailView: View {
         .padding(.vertical, 8)
         .contentShape(Rectangle())
         .onTapGesture(count: 5) {
+            // Debug builds only: no hidden features in App Store builds (Guideline 2.5.19).
+            #if DEBUG
             showsEnvironmentToggle = true
+            #endif
         }
     }
 

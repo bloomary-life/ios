@@ -95,6 +95,13 @@ final class DraftsViewModel: ObservableObject {
         store.setScheduledPosts(scheduledPosts.filter { UUID(uuidString: $0.draftId ?? "") != draft.id } + [result], credential: credential)
     }
 
+    func unschedule(_ draft: Draft) async throws {
+        guard let postService, let sessionStore, let credential = sessionStore.postCredential else { throw LinkedInPostError.missingAuth }
+        try await postService.unschedule(draftID: draft.serverID, credential: credential)
+        guard sessionStore.postCredential == credential else { return }
+        store.setScheduledPosts(scheduledPosts.filter { UUID(uuidString: $0.draftId ?? "") != draft.id }, credential: credential)
+    }
+
     private func refreshSchedules() {
         guard let postService, let sessionStore, let credential = sessionStore.postCredential else {
             return

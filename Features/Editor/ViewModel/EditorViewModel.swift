@@ -335,7 +335,8 @@ final class EditorViewModel: ObservableObject {
             _ = try await postService.publish(
                 text: editorText,
                 credential: credential,
-                attachment: postAttachment
+                attachment: postAttachment,
+                draftID: savedDraft?.serverID
             )
             guard sessionStore.postCredential == credential else { return }
             store.completePublishedDraft(submitted, savedDraft: savedDraft)

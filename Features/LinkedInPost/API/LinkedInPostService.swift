@@ -28,7 +28,7 @@ final class LinkedInPostService: Sendable {
         self.apiBaseURL = apiBaseURL
     }
 
-    func publish(text: String, credential: LinkedInPostCredential?, attachment: LinkedInPostAttachment? = nil) async throws -> PublishResult {
+    func publish(text: String, credential: LinkedInPostCredential?, attachment: LinkedInPostAttachment? = nil, draftID: String? = nil) async throws -> PublishResult {
         let body = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !body.isEmpty || attachment != nil else { throw LinkedInPostError.emptyPost }
         guard let credential, !credential.accessToken.isEmpty, !credential.memberID.isEmpty else {
@@ -41,12 +41,15 @@ final class LinkedInPostService: Sendable {
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(credential.accessToken)", forHTTPHeaderField: "Authorization")
+        var fields = [
+            "memberId": credential.memberID,
+            "commentary": body,
+            "timezone": TimeZone.current.identifier
+        ]
+        // The backend cancels this draft's schedule once the post is live.
+        if let draftID { fields["draftId"] = draftID }
         request.httpBody = builder.body(
-            fields: [
-                "memberId": credential.memberID,
-                "commentary": body,
-                "timezone": TimeZone.current.identifier
-            ],
+            fields: fields,
             file: attachment.map {
                 MultipartFormFile(
                     fieldName: "attachment",
@@ -83,6 +86,17 @@ final class LinkedInPostService: Sendable {
         let (data, response) = try await URLSession.shared.data(for: request)
         try validate(response: response, data: data)
         return try JSONDecoder.app.decode(ScheduledPostResult.self, from: data)
+    }
+
+    func unschedule(draftID: String, credential: LinkedInPostCredential?) async throws {
+        guard let credential, !credential.accessToken.isEmpty, !credential.memberID.isEmpty else { throw LinkedInPostError.missingAuth }
+        var components = URLComponents(url: apiBaseURL.appending(path: "/api/linkedin/schedule"), resolvingAgainstBaseURL: false)!
+        components.queryItems = [URLQueryItem(name: "memberId", value: credential.memberID), URLQueryItem(name: "draftId", value: draftID)]
+        var request = URLRequest(url: components.url!)
+        request.setValue("Bearer \(credential.accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "DELETE"
+        let (data, response) = try await URLSession.shared.data(for: request)
+        try validate(response: response, data: data)
     }
 
     func scheduleStatus(id: String, credential: LinkedInPostCredential?) async throws -> ScheduledPostResult {

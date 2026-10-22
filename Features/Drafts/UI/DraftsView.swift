@@ -149,6 +149,21 @@ struct DraftsView: View {
                     if let scheduleError {
                         Text(scheduleError).font(.callout).foregroundStyle(AppStyle.coral)
                     }
+                    if viewModel.scheduledPost(for: draft) != nil {
+                        Button("Unschedule", role: .destructive) {
+                            isRescheduling = true
+                            Task {
+                                do {
+                                    try await viewModel.unschedule(draft)
+                                    reschedulingDraft = nil
+                                } catch {
+                                    scheduleError = error.localizedDescription
+                                }
+                                isRescheduling = false
+                            }
+                        }
+                        .disabled(isRescheduling)
+                    }
                 }
                 .navigationTitle(viewModel.scheduledPost(for: draft) == nil ? "Schedule post" : "Reschedule post")
                 .toolbar {
